@@ -115,7 +115,7 @@ public class utils {
     public static ItemStack setSkullOwner(String textureValue) {
         if(textureValue.length()>16) {
             try {
-                GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+                GameProfile profile = new GameProfile(UUID.randomUUID(), "CustomSkull");
                 profile.getProperties().put("textures", new Property("textures", textureValue));
                 ItemStack skull = AuctionMasterItemDisplay.items.skullItem.clone();
                 ItemMeta headMeta = skull.getItemMeta();

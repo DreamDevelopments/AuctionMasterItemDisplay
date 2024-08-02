@@ -1,7 +1,7 @@
 package me.qKing12.AuctionMasterItemDisplay.TopElements;
 
-import me.qKing12.AuctionMaster.AuctionMaster;
-import me.qKing12.AuctionMaster.AuctionObjects.Auction;
+import me.intel.AuctionMaster.AuctionMaster;
+import me.intel.AuctionMaster.AuctionObjects.Auction;
 import me.qKing12.AuctionMasterItemDisplay.utils;
 import org.bukkit.Location;
 

@@ -1,8 +1,7 @@
 package me.qKing12.AuctionMasterItemDisplay.TopElements;
 
-import me.qKing12.AuctionMaster.AuctionMaster;
-import me.qKing12.AuctionMaster.AuctionObjects.Auction;
-import me.qKing12.AuctionMaster.Menus.ViewAuctionMenu;
+import me.intel.AuctionMaster.AuctionObjects.Auction;
+import me.intel.AuctionMaster.Menus.ViewAuctionMenu;
 import me.qKing12.AuctionMasterItemDisplay.Database;
 import me.qKing12.AuctionMasterItemDisplay.AuctionMasterItemDisplay;
 import me.qKing12.AuctionMasterItemDisplay.utils;
@@ -212,19 +211,23 @@ public class TopDisplay implements Listener {
     public void findSigns() {
         Bukkit.getScheduler().runTask(AuctionMasterItemDisplay.plugin, () -> {
             final Block loc = this.location.clone().add(0,1, 0).getBlock();
-            if (loc.getRelative(BlockFace.EAST).getType().equals(Material.WALL_SIGN)) {
+            if (isWallSign(loc.getRelative(BlockFace.EAST).getType())) {
                 this.updateSign((Sign) loc.getRelative(BlockFace.EAST).getState());
             }
-            if (loc.getRelative(BlockFace.WEST).getType().equals(Material.WALL_SIGN)) {
+            if (isWallSign(loc.getRelative(BlockFace.WEST).getType())) {
                 this.updateSign((Sign) loc.getRelative(BlockFace.WEST).getState());
             }
-            if (loc.getRelative(BlockFace.SOUTH).getType().equals(Material.WALL_SIGN)) {
+            if (isWallSign(loc.getRelative(BlockFace.SOUTH).getType())) {
                 this.updateSign((Sign) loc.getRelative(BlockFace.SOUTH).getState());
             }
-            if (loc.getRelative(BlockFace.NORTH).getType().equals(Material.WALL_SIGN)) {
+            if (isWallSign(loc.getRelative(BlockFace.NORTH).getType())) {
                 this.updateSign((Sign) loc.getRelative(BlockFace.NORTH).getState());
             }
         });
+    }
+
+    private boolean isWallSign(Material material) {
+        return material.toString().contains("_WALL_") && material.toString().contains("_SIGN");
     }
 
     public void updateSign(final Sign toUpdate) {

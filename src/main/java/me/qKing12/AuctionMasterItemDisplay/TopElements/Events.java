@@ -1,9 +1,9 @@
 package me.qKing12.AuctionMasterItemDisplay.TopElements;
 
-import me.qKing12.AuctionMaster.API.Events.AuctionCreateEvent;
-import me.qKing12.AuctionMaster.API.Events.PlaceBidEvent;
-import me.qKing12.AuctionMaster.AuctionMaster;
-import me.qKing12.AuctionMaster.AuctionObjects.Auction;
+import me.intel.AuctionMaster.API.Events.AuctionCreateEvent;
+import me.intel.AuctionMaster.API.Events.PlaceBidEvent;
+import me.intel.AuctionMaster.AuctionMaster;
+import me.intel.AuctionMaster.AuctionObjects.Auction;
 import me.qKing12.AuctionMasterItemDisplay.Database;
 import me.qKing12.AuctionMasterItemDisplay.Heads;
 import me.qKing12.AuctionMasterItemDisplay.AuctionMasterItemDisplay;
