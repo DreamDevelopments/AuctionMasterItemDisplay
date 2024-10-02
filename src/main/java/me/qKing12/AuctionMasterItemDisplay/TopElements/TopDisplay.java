@@ -70,7 +70,7 @@ public class TopDisplay implements Listener {
 
     private Item getItem(Location loc){
         for(Entity ent : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-            if (ent.getType().equals(EntityType.DROPPED_ITEM)) {
+            if (ent.getType().equals(EntityType.ITEM)) {
                 Item display = (Item) ent;
                 try {
                     if (display.getItemStack().getItemMeta().getLore().get(0).equalsIgnoreCase("AuctionMasterItemDisplay")) {

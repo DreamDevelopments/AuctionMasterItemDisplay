@@ -1,8 +1,7 @@
 package me.qKing12.AuctionMasterItemDisplay;
 
 import com.google.common.base.Charsets;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -10,6 +9,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -18,11 +19,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 public class utils {
     public static String locationToBase64(Location loc) throws IllegalStateException {
@@ -112,29 +112,25 @@ public class utils {
         return null;
     }*/
 
-    public static ItemStack setSkullOwner(String textureValue) {
-        if(textureValue.length()>16) {
-            try {
-                GameProfile profile = new GameProfile(UUID.randomUUID(), "CustomSkull");
-                profile.getProperties().put("textures", new Property("textures", textureValue));
-                ItemStack skull = AuctionMasterItemDisplay.items.skullItem.clone();
-                ItemMeta headMeta = skull.getItemMeta();
-                Class<?> headMetaClass = headMeta.getClass();
-                try {
-                    getField(headMetaClass, "profile", GameProfile.class, 0).set(headMeta, profile);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                skull.setItemMeta(headMeta);
-                return skull;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public static ItemStack setSkullOwner(String input) {
+        ItemStack i = AuctionMasterItemDisplay.items.skullItem.clone();
+        SkullMeta skullMeta = (SkullMeta) i.getItemMeta();
+        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID(), "amid_customSkull");
+        String texture;
+        if(input.startsWith("http")) {
+            texture = input;
+        } else {
+            texture = new String(Base64.getDecoder().decode(input)).split("SKIN\":\\{\"url\":\"")[1].split("\"")[0];
         }
-        return null;
+        try {
+            profile.getTextures().setSkin(new URL(texture));
+        } catch(MalformedURLException e) {
+            Bukkit.getLogger().warning("[AuctionMasterItemDisplay] Invalid URL for custom skull texture: " + input);
+            e.printStackTrace();
+        }
+        skullMeta.setOwnerProfile(profile);
+        i.setItemMeta(skullMeta);
+        return i;
     }
 
     public static boolean isLoadedChunk(Location loc){
